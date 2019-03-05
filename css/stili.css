@@ -12,6 +12,9 @@ meni {
 }
 
 .info-element {
+  font-style: italic;
+  padding-right: 15px;
+  text-align: right;
 }
 
 table {
