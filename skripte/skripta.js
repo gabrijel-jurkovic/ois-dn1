@@ -50,6 +50,12 @@ window.addEventListener('load', function () {
   }
 
   mapa.on('click', obKlikuNaMapo);
+
+
+  document.querySelector("#dodajFakultete").addEventListener('click',dodajFakultete);// gumb za dodajanje fakulteti
+  document.querySelector("#dodajRestavracije").addEventListener('click',dodajRestavracije);//gumb za dodajanje restavracij
+
+
   
   document.getElementById("izbrisiRezultate")
     .addEventListener("click", function() {
@@ -81,10 +87,14 @@ window.addEventListener('load', function () {
  * Na zemljevid dodaj oznake z bližnjimi fakultetami in
  * gumb onemogoči.
  */
+
+
+
+
 function dodajFakultete() {
   pridobiPodatke("fakultete", function (jsonRezultat) {
     izrisRezultatov(jsonRezultat);
-    document.getElementById("dodajFakultete").disabled = true;
+    document.getElementById("dodajFakultete").disabled = false;
     document.getElementById("izbrisiRezultate").disabled = false;
   });
 }
@@ -95,7 +105,7 @@ function dodajFakultete() {
  * gumb onemogoči.
  */
 function dodajRestavracije() {
-  pridobiPodatke(function (jsonRezultat) {
+  pridobiPodatke("restavracije",function (jsonRezultat) {
     izrisRezultatov(jsonRezultat);
     document.getElementById("dodajRestavracije").disabled = true;
     document.getElementById("izbrisiRezultate").disabled = false;
