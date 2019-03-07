@@ -56,6 +56,9 @@ window.addEventListener('load', function () {
   document.querySelector("#dodajRestavracije").addEventListener('click',dodajRestavracije);//gumb za dodajanje restavracij
 
 
+  document.getElementById("fakultete_rezultati").innerHTML = 0;// default vrednost za rezultat fakultet
+  document.getElementById("restavracije_rezultati").innerHTML = 0;// default vrednost za rezultat restavracij
+
   
   document.getElementById("izbrisiRezultate")
     .addEventListener("click", function() {
@@ -96,6 +99,9 @@ function dodajFakultete() {
     izrisRezultatov(jsonRezultat);
     document.getElementById("dodajFakultete").disabled = false;
     document.getElementById("izbrisiRezultate").disabled = false;
+    
+    document.getElementById("fakultete_rezultati").innerHTML = izrisRezultatov(jsonRezultat);
+
   });
 }
 
@@ -109,6 +115,8 @@ function dodajRestavracije() {
     izrisRezultatov(jsonRezultat);
     document.getElementById("dodajRestavracije").disabled = true;
     document.getElementById("izbrisiRezultate").disabled = false;
+    
+    document.getElementById("restavracije_rezultati").innerHTML = izrisRezultatov(jsonRezultat);
   });
 }
 
@@ -202,6 +210,7 @@ function izrisRezultatov(jsonRezultat) {
     if (prikaziOznako(lng, lat))
       dodajMarker(lat, lng, opis, znacilnosti[i].properties.amenity);
   }
+  return znacilnosti.length;// nadgradnja funkcije izrisRezultatov da vrne stevilo fakultet/restavracij
 }
 
 
