@@ -34,13 +34,24 @@ button {
   vertical-align: top
 }
 
+.fakultete{
+  display: inline-flex;
+  align-items: center;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+.fakultete img{
+  padding-right: 5px;
+}
+
 telo {
   flex: 1;
   float: right;
   margin: 10px;
   overflow: visible;
   padding: 10px;
-  display: inline-block;;
+  display: inline-block;
   background-color: lightgray;
 }
 
