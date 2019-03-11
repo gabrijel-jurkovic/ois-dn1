@@ -56,9 +56,18 @@ window.addEventListener('load', function () {
   document.querySelector("#dodajRestavracije").addEventListener('click',dodajRestavracije);//gumb za dodajanje restavracij
 
 
-  document.getElementById("fakultete_rezultati").innerHTML = 0;// default vrednost za rezultat fakultet
-  document.getElementById("restavracije_rezultati").innerHTML = 0;// default vrednost za rezultat restavracij
 
+  
+  document.getElementById("idRadij")
+    .addEventListener("click", function(){
+      prikaziObmocje();
+    });
+  document.getElementById("radij")
+  .addEventListener("keyup",function(){
+    prikaziObmocje();
+    posodobiOznakeNaZemljevidu();
+  });
+  
   
   document.getElementById("izbrisiRezultate")
     .addEventListener("click", function() {
@@ -78,10 +87,7 @@ window.addEventListener('load', function () {
       document.getElementById("restavracije_rezultati").innerHTML = 0;
     });
 
-  document.getElementById("idRadij")
-    .addEventListener("click", function() {
-      prikaziObmocje();
-    });
+  
   
 });
 
@@ -97,10 +103,10 @@ window.addEventListener('load', function () {
 function dodajFakultete() {
   pridobiPodatke("fakultete", function (jsonRezultat) {
     izrisRezultatov(jsonRezultat);
-    document.getElementById("dodajFakultete").disabled = false;
+    document.getElementById("dodajFakultete").disabled = true;
     document.getElementById("izbrisiRezultate").disabled = false;
     
-    document.getElementById("fakultete_rezultati").innerHTML = izrisRezultatov(jsonRezultat);
+    document.getElementById("fakultete_rezultati").innerHTML = jsonRezultat.stRezultatov;
 
   });
 }
@@ -116,7 +122,7 @@ function dodajRestavracije() {
     document.getElementById("dodajRestavracije").disabled = true;
     document.getElementById("izbrisiRezultate").disabled = false;
     
-    document.getElementById("restavracije_rezultati").innerHTML = izrisRezultatov(jsonRezultat);
+    document.getElementById("restavracije_rezultati").innerHTML = jsonRezultat.stRezultatov;
   });
 }
 
@@ -141,7 +147,7 @@ function pridobiPodatke(vrstaInteresneTocke, callback) {
         var json = JSON.parse(xobj.responseText);
         
         // nastavimo ustrezna polja (število najdenih zadetkov)
-        
+        json.stRezultatov=json.features.length;
         // vrnemo rezultat
         callback(json);
     }
@@ -210,7 +216,7 @@ function izrisRezultatov(jsonRezultat) {
     if (prikaziOznako(lng, lat))
       dodajMarker(lat, lng, opis, znacilnosti[i].properties.amenity);
   }
-  return znacilnosti.length;// nadgradnja funkcije izrisRezultatov da vrne stevilo fakultet/restavracij
+
 }
 
 
@@ -218,9 +224,28 @@ function izrisRezultatov(jsonRezultat) {
  * Glede na vrednost radija območja izbriši oz. dodaj
  * oznake na zemljevid.
  */
-function posodobiOznakeNaZemljevidu() {
+function posodobiOznakeNaZemljevidu() {//////////////////////////////djelomično radi
   // FRI marker pustimo, ostale odstranimo
+
+  for(var i=1;i<markerji.length;i++){
+    mapa.removeLayer(markerji[i]);
+  }
+
+  if(document.getElementById("dodajRestavracije").disabled){
+    pridobiPodatke("restavracije",function(jsonRezultat){
+      izrisRezultatov(jsonRezultat);
+    });
+  }
+
+  if(document.getElementById("dodajFakultete").disabled){
+    pridobiPodatke("fakultete",function(jsonRezultat){
+      izrisRezultatov(jsonRezultat);
+    });
+  }
+
 }
+ 
+
 
 
 /**
