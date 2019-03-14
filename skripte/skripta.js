@@ -41,16 +41,25 @@ window.addEventListener('load', function () {
 
   function obKlikuNaMapo(e) {
     var latlng = e.latlng;
-    popup
+    /*popup
       .setLatLng(latlng)
       .setContent("Izbrana točka:" + latlng.toString())
-      .openOn(mapa);
+      .openOn(mapa);*/
 
     prikazPoti(latlng);
   }
 
   mapa.on('click', obKlikuNaMapo);
 
+  /*document.getElementById("idDoFri")
+  .addEventListener('click',function(){
+    obKlikuNaMapo();
+  });
+
+  document.getElementById("idIzFri")
+  .addEventListener('click',function(){
+    obKlikuNaMapo();
+  });*/
 
   document.querySelector("#dodajFakultete").addEventListener('click',dodajFakultete);// gumb za dodajanje fakulteti
   document.querySelector("#dodajRestavracije").addEventListener('click',dodajRestavracije);//gumb za dodajanje restavracij
@@ -255,9 +264,37 @@ function posodobiOznakeNaZemljevidu() {//////////////////////////////djelomično
  */
 function prikazPoti(latLng) {
   // Izbrišemo obstoječo pot, če ta obstaja
-  if (pot != null) mapa.removeControl(pot);
+  if (pot != null){ 
+    mapa.removeControl(pot);
+  }
+  //prikaze pot do fri
+  if(document.getElementById("idDoFri").checked==true){
+  pot=L.Routing.control({
+      language: 'sl',
+      waypoints: [
+          L.latLng(latLng.lat, latLng.lng),
+           L.latLng(FRI_LAT,FRI_LNG)
+      ],
+      lineOptions:{
+      styles:[{color: '#242c81',weight:12}]
+      }
+  }).addTo(mapa)
+}
+//prikaze pot iz fri
+if(document.getElementById("idIzFri").checked==true){
+ pot=L.Routing.control({
+  language: 'sl',
+  waypoints: [
+     L.latLng(FRI_LAT,FRI_LNG),
+     L.latLng(latLng.lat, latLng.lng) 
+  ],
+  lineOptions:{
+    styles:[{color: '#242c81',weight:12}]
+    }
+}).addTo(mapa);
+}
 
-  // pot = ...
+
 }
 
 
